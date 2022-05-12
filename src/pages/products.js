@@ -1,15 +1,15 @@
 import Head from 'next/head';
-import { Box, Container, Grid, Pagination } from '@mui/material';
-import { products } from '../__mocks__/products';
-import { ProductListToolbar } from '../components/product/product-list-toolbar';
-import { ProductCard } from '../components/product/product-card';
+import { Box, Container } from '@mui/material';
+import { CustomerListProducts } from '../components/customer/customer-list-products';
+import { CustomerListToolbar } from '../components/customer/customer-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
+import { customers } from '../__mocks__/customers';
 
 const Products = () => (
   <>
     <Head>
       <title>
-        Products | Material Kit
+        Product
       </title>
     </Head>
     <Box
@@ -20,37 +20,9 @@ const Products = () => (
       }}
     >
       <Container maxWidth={false}>
-        <ProductListToolbar />
-        <Box sx={{ pt: 3 }}>
-          <Grid
-            container
-            spacing={3}
-          >
-            {products.map((product) => (
-              <Grid
-                item
-                key={product.id}
-                lg={4}
-                md={6}
-                xs={12}
-              >
-                <ProductCard product={product} />
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            pt: 3
-          }}
-        >
-          <Pagination
-            color="primary"
-            count={3}
-            size="small"
-          />
+        <CustomerListToolbar titlePage="Product" />
+        <Box sx={{ mt: 3 }}>
+          <CustomerListProducts customers={customers}/>
         </Box>
       </Container>
     </Box>

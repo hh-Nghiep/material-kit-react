@@ -1,12 +1,13 @@
 import { useState } from "react";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import PropTypes from "prop-types";
-import { format } from "date-fns";
+import { Menu, Dropdown } from "antd";
+import { EditOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
+import "antd/dist/antd.css";
 import {
   Avatar,
   Box,
   Card,
-  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -17,42 +18,34 @@ import {
 } from "@mui/material";
 import { getInitials } from "../../utils/get-initials";
 
-export const CustomerListResults = ({ customers, ...rest }) => {
+export const CustomerListOders = ({ customers, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
 
-  const handleSelectAll = (event) => {
-    let newSelectedCustomerIds;
+  function handleMenuClick(e) {
+    message.info("Click on menu item.");
+    console.log("click", e);
+  }
 
-    if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer.id);
-    } else {
-      newSelectedCustomerIds = [];
-    }
-
-    setSelectedCustomerIds(newSelectedCustomerIds);
-  };
-
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedCustomerIds.indexOf(id);
-    let newSelectedCustomerIds = [];
-
-    if (selectedIndex === -1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
-    } else if (selectedIndex === 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
-    } else if (selectedIndex === selectedCustomerIds.length - 1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds.slice(0, selectedIndex),
-        selectedCustomerIds.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelectedCustomerIds(newSelectedCustomerIds);
-  };
+  const menu = (
+    <Menu
+      onClick={handleMenuClick}
+      items={[
+        {
+          label: "Edit",
+          key: "1",
+          icon: <EditOutlined />,
+        },
+        {
+          label: "Delete",
+          key: "2",
+          icon: <DeleteOutlined />,
+          style: { color: "red" },
+        },
+      ]}
+    />
+  );
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -69,12 +62,12 @@ export const CustomerListResults = ({ customers, ...rest }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Image</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Location</TableCell>
-                <TableCell>Phone</TableCell>
-                <TableCell>Registration date</TableCell>
+                <TableCell>ID</TableCell>
+                <TableCell>Products</TableCell>
+                <TableCell>Price</TableCell>
+                <TableCell>User</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -105,8 +98,13 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                   <TableCell>
                     {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
                   </TableCell>
-                  <TableCell>{customer.phone}</TableCell>
-                  <TableCell>{format(customer.createdAt, "dd/MM/yyyy")}</TableCell>
+                  <TableCell>Success</TableCell>
+                  <TableCell>
+                    <a>
+                      <EyeOutlined />
+                      View
+                    </a>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -126,6 +124,6 @@ export const CustomerListResults = ({ customers, ...rest }) => {
   );
 };
 
-CustomerListResults.propTypes = {
+CustomerListOders.propTypes = {
   customers: PropTypes.array.isRequired,
 };
