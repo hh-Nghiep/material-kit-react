@@ -1,5 +1,4 @@
 import axiosClient from "./axiosClient";
-
 const userApi = {
   getAlluser: (param) => {
     const url = "/api/v1/users";
@@ -10,6 +9,9 @@ const userApi = {
     const url = `/api/v1/${id}`;
     return axiosClient.get(url);
   },
+  login: (param) => {
+    const url = `api/v1/auth/login`;
+    return axiosClient.post(url, param);
+  },
 };
-
 export default userApi;
