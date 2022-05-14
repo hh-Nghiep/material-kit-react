@@ -21,7 +21,7 @@ export default function Customers() {
         setListUser(response.data);
         console.log(listUser);
       } catch (error) {
-        console.log("Loi : " + error);
+        console.log(Promise.reject(error));
       }
     };
 
