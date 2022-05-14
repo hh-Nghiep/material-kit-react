@@ -18,8 +18,8 @@ export default function Products() {
           size: 10,
         };
         const response = await ProductsApi.getAllProduct(param);
-        setListproduct(response.data);
-        console.log(listproduct);
+        console.log("response", response.products);
+        setListproduct(response.products);
       } catch (error) {
         console.log("Loi : " + error);
       }
@@ -43,7 +43,7 @@ export default function Products() {
         <Container maxWidth={false}>
           <CustomerListToolbar titlePage="Product" />
           <Box sx={{ mt: 3 }}>
-            <CustomerListProducts customers={customers} />
+            <CustomerListProducts  products={listproduct} />
           </Box>
         </Container>
       </Box>
