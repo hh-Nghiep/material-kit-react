@@ -2,10 +2,10 @@ import PropTypes from "prop-types";
 import styled from "@emotion/styled";
 import { AppBar, Avatar, Badge, Box, IconButton, Toolbar, Tooltip } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
 import { Bell as BellIcon } from "../icons/bell";
-import { UserCircle as UserCircleIcon } from "../icons/user-circle";
 import { Users as UsersIcon } from "../icons/users";
+import NextLink from "next/link";
+import { useEffect } from "react";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -14,6 +14,13 @@ const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
 
 export const DashboardNavbar = (props) => {
   const { onSidebarOpen, ...other } = props;
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      try {
+      } catch (error) {}
+    };
+  }, []);
 
   return (
     <>
@@ -60,16 +67,22 @@ export const DashboardNavbar = (props) => {
               </Badge>
             </IconButton>
           </Tooltip>
-          <Avatar
-            sx={{
-              height: 40,
-              width: 40,
-              ml: 1,
+          <div
+            style={{
+              fontWeight: "600",
+              fontSize: "15px",
+              color: "white",
+              backgroundColor: "rgb(240 229 229)",
+              borderRadius: "8px",
+              padding: "5px 10px",
+              marginLeft: "5px",
+              cursor: "pointer",
             }}
-            src="/static/images/avatars/avatar_1.png"
           >
-            <UserCircleIcon fontSize="small" />
-          </Avatar>
+            <NextLink className="username" href="/account">
+              Nghiệp
+            </NextLink>
+          </div>
         </Toolbar>
       </DashboardNavbarRoot>
     </>
