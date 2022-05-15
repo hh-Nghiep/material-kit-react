@@ -21,8 +21,6 @@ const Login = () => {
   const login = async (param) => {
     try {
       const response = await userApi.login(param);
-
-      console.log(response);
       localStorage.setItem("token", response.access_token);
 
       router.push("/customers");

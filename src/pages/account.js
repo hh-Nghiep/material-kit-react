@@ -6,7 +6,6 @@ import { DashboardLayout } from "../components/dashboard-layout";
 import React, { useState } from "react";
 
 export default function Account() {
-
   return (
     <>
       <Head>
@@ -23,10 +22,8 @@ export default function Account() {
           <Typography sx={{ mb: 3 }} variant="h4">
             Account
           </Typography>
-          <Grid container spacing={3}>
-            <Grid item lg={4} md={6} xs={12}>
-              <AccountProfile />
-            </Grid>
+
+          <Grid container spacing={3} style={{ justifyContent: "center" }}>
             <Grid item lg={8} md={6} xs={12}>
               <AccountProfileDetails />
             </Grid>
