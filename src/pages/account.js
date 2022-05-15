@@ -3,9 +3,22 @@ import { Box, Container, Grid, Typography } from "@mui/material";
 import { AccountProfile } from "../components/account/account-profile";
 import { AccountProfileDetails } from "../components/account/account-profile-details";
 import { DashboardLayout } from "../components/dashboard-layout";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import userApi from "src/api/usersApi";
 
 export default function Account() {
+  const [infoUser, setInfoUser] = useState();
+
+  useEffect(() => {
+    const fetchInfoUser = async () => {
+      const response = await userApi.getUser();
+      setInfoUser(response);
+      console.log(infoUser);
+    };
+
+    fetchInfoUser();
+  }, []);
+
   return (
     <>
       <Head>

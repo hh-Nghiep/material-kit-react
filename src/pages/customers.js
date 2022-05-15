@@ -18,9 +18,7 @@ export default function Customers() {
         };
         const response = await userApi.getAlluser(param);
         const temp = [];
-        Object.values(response.users).map((item) => {
-          temp.push(item);
-        });
+        console.log(response);
         setListUser(temp);
       } catch (error) {
         console.log(Promise.reject(error));

@@ -1,3 +1,4 @@
+import axios from "axios";
 import axiosClient from "./axiosClient";
 const userApi = {
   getAlluser: (param) => {
@@ -12,6 +13,10 @@ const userApi = {
   login: (param) => {
     const url = `api/v1/auth/login`;
     return axiosClient.post(url, param);
+  },
+  getUser: () => {
+    const url = "/api/v1/user";
+    return axios.get(url);
   },
 };
 export default userApi;

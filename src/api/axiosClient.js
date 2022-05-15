@@ -14,11 +14,9 @@ const axiosClient = axios.create({
 });
 axiosClient.interceptors.request.use(async (config) => {
   // Handle token here ...
-  if (localStorage.getItem("token") !== null) {
-    localStorage.getItem("token").length !== 0
-      ? (config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`)
-      : (config.headers.Authorization = false);
-  }
+  localStorage.getItem("token").length !== 0
+    ? (config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`)
+    : (config.headers.Authorization = false);
 
   return config;
 });

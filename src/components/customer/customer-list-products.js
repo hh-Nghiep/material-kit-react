@@ -33,6 +33,10 @@ export const CustomerListProducts = ({ products, ...rest }) => {
   const [page, setPage] = useState(0);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const handleClose = () => setOpen(false);
+  const [selectedProduct, setSelectedProduct] = useState({});
+
   const handleOpen = (e) => {
     console.log("click", e.key);
     console.log("producs", products);
@@ -43,25 +47,13 @@ export const CustomerListProducts = ({ products, ...rest }) => {
     formik.setFieldValue("detailDescription", selected[0].detailDescription);
     setOpen(true);
   };
-  const handleClose = () => setOpen(false);
-  const [selectedProduct, setSelectedProduct] = useState({});
-
-  // get selected product
-
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
       username: "user3",
       password: "123",
     },
-    // validationSchema: Yup.object({
-    //   username: Yup.string()
-    //     // .email(
-    //     //   'Must be a valid email')
-    //     .max(255)
-    //     .required("Username is required"),
-    //   password: Yup.string().max(255).required("Password is required"),
-    // }),
+
     onSubmit: (e) => {
       const payload = {
         code: e?.code,
@@ -82,7 +74,6 @@ export const CustomerListProducts = ({ products, ...rest }) => {
   });
   function handleMenuClick(e) {
     // message.info("Click on menu item.");
-
     setModalIsOpen(true);
   }
 
@@ -269,39 +260,11 @@ export const CustomerListProducts = ({ products, ...rest }) => {
               value={formik.values.detailDescription}
               variant="outlined"
             />
-            {/* <TextField
-              error={Boolean(formik.touched.gender && formik.errors.gender)}
-              fullWidth
-              helperText={formik.touched.gender && formik.errors.gender}
-              label="Gender"
-              margin="normal"
-              name="gender"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              type="text"
-              value={formik.values.gender}
-              variant="outlined"
-            /> */}
             <Box sx={{ py: 2, ml: 16 }}>
-              <Button
-                sx={{ mr: 2 }}
-                color="primary"
-                // disabled={formik.isSubmitting}
-                // fullWidth
-                size="large"
-                type="submit"
-                variant="contained"
-              >
+              <Button sx={{ mr: 2 }} color="primary" size="large" type="submit" variant="contained">
                 Update
               </Button>
-              <Button
-                color="primary"
-                // fullWidth
-                size="large"
-                // type="submit"
-                variant="contained"
-                onClick={handleClose}
-              >
+              <Button color="primary" size="large" variant="contained" onClick={handleClose}>
                 close
               </Button>
             </Box>
