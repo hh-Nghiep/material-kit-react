@@ -5,7 +5,16 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/material";
 import userApi from "src/api/usersApi";
+import { useEffect } from "react";
 const Login = () => {
+
+  useEffect(() => {
+    console.log("token", localStorage.getItem("token"));
+    if(localStorage.getItem("token") == "undefined"){
+      console.log("dung vay");
+      localStorage.setItem("token", "")
+    } 
+  }, []);
   const login = async (param) => {
     try {
       const response = await userApi.login(param);

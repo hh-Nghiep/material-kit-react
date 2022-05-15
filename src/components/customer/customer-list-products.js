@@ -26,7 +26,7 @@ import { getInitials } from "../../utils/get-initials";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
 // import Modal from "react-modal";
-
+import ProductsApi from "src/api/productsApi";
 export const CustomerListProducts = ({ products, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -54,9 +54,10 @@ export const CustomerListProducts = ({ products, ...rest }) => {
       password: "123",
     },
 
-    onSubmit: (e) => {
+    onSubmit: async (e) => {
       const payload = {
-        code: e?.code,
+        id: e?.code,
+        code: e?.name,
         name: e?.name,
         shortDescription: e?.detailDescription,
         detailDescription: e?.detailDescription,
@@ -68,7 +69,15 @@ export const CustomerListProducts = ({ products, ...rest }) => {
         colors: ["white", "black", "blue"],
       };
 
-      console.log(e);
+      console.log(payload);
+
+      try {
+        const response = await ProductsApi.updateProduct(payload);
+
+        console.log(response);
+      } catch (error) {
+        console.log("Loi : " + error);
+      }
       // login(e);
     },
   });
