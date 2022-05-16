@@ -13,7 +13,7 @@ import { DollarCircleOutlined, SkinOutlined } from "@ant-design/icons";
 
 const items = [
   {
-    href: "/",
+    href: "/dashboard",
     icon: <DollarCircleOutlined />,
     title: "Revenue",
   },

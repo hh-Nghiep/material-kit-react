@@ -15,12 +15,11 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { useRouter } from "next/router";
 
-export const CustomerListOders = ({ orders, ...rest }) => {
+export const CustomerDetailListOders = ({ products, ...rest }) => {
+  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-  const router = useRouter();
 
   function handleMenuClick(e) {
     message.info("Click on menu item.");
@@ -45,7 +44,6 @@ export const CustomerListOders = ({ orders, ...rest }) => {
       ]}
     />
   );
-
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
   };
@@ -53,6 +51,8 @@ export const CustomerListOders = ({ orders, ...rest }) => {
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
+
+   console.log(products);
 
   return (
     <Card {...rest}>
@@ -62,17 +62,17 @@ export const CustomerListOders = ({ orders, ...rest }) => {
             <TableHead>
               <TableRow>
                 <TableCell>ID</TableCell>
-                <TableCell>Products</TableCell>
+                <TableCell>Product</TableCell>
                 <TableCell>Price</TableCell>
-                <TableCell>Phone</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Action</TableCell>
+                <TableCell>Quantity</TableCell>
+                <TableCell>Size</TableCell>
+                <TableCell>Total Price</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody key={Math.random()}>
-              {orders.orders?.map((order) => (
-                <TableRow hover key={order.id}>
-                  <TableCell>{order.id}</TableCell>
+            <TableBody >
+              {products?.map((product) => (
+                <TableRow hover key={product.id?.productId}>
+                  <TableCell>{product.id?.productId}</TableCell>
                   <TableCell>
                     <Box
                       sx={{
@@ -81,24 +81,14 @@ export const CustomerListOders = ({ orders, ...rest }) => {
                       }}
                     >
                       <Typography color="textPrimary" variant="body1">
-                        {order.amount}
+                        {product.name}
                       </Typography>
                     </Box>
                   </TableCell>
-                  <TableCell>{order.email}</TableCell>
-                  <TableCell>{order.phone}</TableCell>
-                  <TableCell>{order.status}</TableCell>
-                  <TableCell>
-                    <a
-                      onClick={() => {
-                        localStorage.setItem("idDetailOrder", order.id);
-                        router.push("/detailorder");
-                      }}
-                    >
-                      <EyeOutlined />
-                      View
-                    </a>
-                  </TableCell>
+                  <TableCell>{product.price}</TableCell>
+                  <TableCell>{product.quantity}</TableCell>
+                  <TableCell>{product.size}</TableCell>
+                  <TableCell>{product.totalPrice}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -107,7 +97,7 @@ export const CustomerListOders = ({ orders, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count="1"
+        count="5"
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
@@ -118,6 +108,6 @@ export const CustomerListOders = ({ orders, ...rest }) => {
   );
 };
 
-CustomerListOders.propTypes = {
-  orders: PropTypes.array.isRequired,
+CustomerDetailListOders.propTypes = {
+  products: PropTypes.array.isRequired,
 };

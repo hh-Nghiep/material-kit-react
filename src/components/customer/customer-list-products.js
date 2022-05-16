@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import NextLink from "next/link";
 import PerfectScrollbar from "react-perfect-scrollbar";
-import * as Yup from "yup";
 import PropTypes from "prop-types";
 import { Menu, Dropdown } from "antd";
 import { EditOutlined, DeleteOutlined, MoreOutlined } from "@ant-design/icons";
@@ -285,5 +284,5 @@ export const CustomerListProducts = ({ products, ...rest }) => {
 };
 
 CustomerListProducts.propTypes = {
-  customers: PropTypes.array.isRequired,
+  products: PropTypes.array.isRequired,
 };

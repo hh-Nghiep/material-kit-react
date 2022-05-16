@@ -8,22 +8,23 @@ import userApi from "src/api/usersApi";
 
 export default function Customers() {
   const [listUser, setListUser] = useState([]);
-
+  const fetchUserList = async () => {
+    try {
+      const param = {
+        page: 1,
+        size: 10,
+      };
+      const response = await userApi.getAlluser(param);
+      setListUser([]);
+      response.users?.map((item) => {
+        setListUser((prev) => [...prev, item]);
+      });
+      console.log(listUser);
+    } catch (error) {
+      console.log(Promise.reject(error));
+    }
+  };
   useEffect(() => {
-    const fetchUserList = async () => {
-      try {
-        const param = {
-          page: 1,
-          size: 10,
-        };
-        const response = await userApi.getAlluser(param);
-        const temp = [];
-        console.log(response);
-        setListUser(temp);
-      } catch (error) {
-        console.log(Promise.reject(error));
-      }
-    };
     fetchUserList();
   }, []);
 

@@ -4,7 +4,7 @@ import { AccountProfile } from "../components/account/account-profile";
 import { AccountProfileDetails } from "../components/account/account-profile-details";
 import { DashboardLayout } from "../components/dashboard-layout";
 import React, { useEffect, useState } from "react";
-import userApi from "src/api/usersApi";
+import userApi from "../api/usersApi";
 
 export default function Account() {
   const [infoUser, setInfoUser] = useState();
@@ -13,9 +13,7 @@ export default function Account() {
     const fetchInfoUser = async () => {
       const response = await userApi.getUser();
       setInfoUser(response);
-      console.log(infoUser);
     };
-
     fetchInfoUser();
   }, []);
 
@@ -38,7 +36,7 @@ export default function Account() {
 
           <Grid container spacing={3} style={{ justifyContent: "center" }}>
             <Grid item lg={8} md={6} xs={12}>
-              <AccountProfileDetails />
+              <AccountProfileDetails infoUser={infoUser} />
             </Grid>
           </Grid>
         </Container>

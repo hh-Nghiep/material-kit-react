@@ -4,6 +4,7 @@ import { Menu, Dropdown } from "antd";
 import { EditOutlined, DeleteOutlined, MoreOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useFormik } from "formik";
+import { useRouter } from "next/router";
 import {
   Box,
   Card,
@@ -18,14 +19,16 @@ import {
   Typography,
   TextField,
 } from "@mui/material";
-import { getInitials } from "../../utils/get-initials";
+import userApi from "src/api/usersApi";
+import axios from "axios";
 
 export const CustomerListResults = ({ listUser, ...rest }) => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [infoUser, setInfoUser] = useState();
   const [open, setOpen] = useState(false);
-
+  const router = useRouter();
   const style = {
     position: "absolute",
     top: "50%",
@@ -51,39 +54,58 @@ export const CustomerListResults = ({ listUser, ...rest }) => {
     setModalIsOpen(true);
   }
 
+  const fetchUpdateUser = async (payload) => {
+    try {
+      const response = await userApi.updateUser(payload);
+    } catch (error) {
+      console.log(Promise.reject(error));
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
-      username: "user3",
-      password: "123",
+      id: "",
+      phone: "",
+      name: "",
+      username: "",
+      email: "",
+      phone: "",
+      roles: [{ id: null, name: null }],
     },
 
     onSubmit: (e) => {
       const payload = {
-        code: e?.code,
+        id: e?.code,
+        phone: e?.phone,
         name: e?.name,
-        shortDescription: e?.detailDescription,
-        detailDescription: e?.detailDescription,
-        price: e?.price,
-        gender: 1,
+        username: e?.username,
+        email: e?.email,
         activeFlag: true,
-        competitivePrice: e?.price,
-        sizes: ["S", "L", "XL", "XXL"],
-        colors: ["white", "black", "blue"],
+        roles: [
+          {
+            id: infoUser.roles[0].id,
+            name: infoUser.roles[0].name,
+          },
+        ],
       };
 
-      console.log(e);
+      fetchUpdateUser(payload);
+      handleClose();
       // login(e);
     },
   });
-  const handleOpen = (e) => {
-    let selected = listUser?.filter((x) => x.id == e.key);
-    formik.setFieldValue("code", selected[0].id);
-    formik.setFieldValue("name", selected[0].name);
-    formik.setFieldValue("price", selected[0].price);
-    formik.setFieldValue("detailDescription", selected[0].detailDescription);
+  const handleOpen = () => {
+    formik.setFieldValue("code", infoUser.id);
+    formik.setFieldValue("name", infoUser.name);
+    formik.setFieldValue("phone", infoUser.phone);
+    formik.setFieldValue("email", infoUser.email);
+    formik.setFieldValue("username", infoUser.username);
+    formik.setFieldValue("roles", infoUser.roles[0].name);
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
+
+  const updateUser = (e) => {};
 
   const menu = (
     <Menu
@@ -123,7 +145,7 @@ export const CustomerListResults = ({ listUser, ...rest }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {listUser?.slice(0, limit).map((user) => (
+                {listUser?.map((user) => (
                   <TableRow hover key={user.id}>
                     <TableCell>{user.id}</TableCell>
                     <TableCell>
@@ -144,12 +166,7 @@ export const CustomerListResults = ({ listUser, ...rest }) => {
                     <TableCell>{user.roles[0].name.slice(5)}</TableCell>
                     <TableCell>
                       <Dropdown overlay={menu} trigger={["click"]}>
-                        <a
-                          onClick={(e) => {
-                            e.preventDefault();
-                            console.log("value", e);
-                          }}
-                        >
+                        <a>
                           <MoreOutlined
                             style={{
                               border: "1px solid #d9d9d9",
@@ -157,6 +174,9 @@ export const CustomerListResults = ({ listUser, ...rest }) => {
                               padding: "7px",
                               marginLeft: "10px",
                               fontSize: "18px",
+                            }}
+                            onClick={() => {
+                              setInfoUser(user);
                             }}
                           />
                         </a>
@@ -193,6 +213,7 @@ export const CustomerListResults = ({ listUser, ...rest }) => {
             </Box>
 
             <TextField
+              disabled
               error={Boolean(formik.touched.code && formik.errors.code)}
               fullWidth
               helperText={formik.touched.code && formik.errors.code}
@@ -206,6 +227,7 @@ export const CustomerListResults = ({ listUser, ...rest }) => {
               variant="outlined"
             />
             <TextField
+              disabled
               error={Boolean(formik.touched.name && formik.errors.name)}
               fullWidth
               helperText={formik.touched.name && formik.errors.name}
@@ -218,35 +240,68 @@ export const CustomerListResults = ({ listUser, ...rest }) => {
               value={formik.values.name}
               variant="outlined"
             />
-
             <TextField
-              error={Boolean(formik.touched.price && formik.errors.price)}
+              error={Boolean(formik.touched.phone && formik.errors.phone)}
               fullWidth
-              helperText={formik.touched.price && formik.errors.price}
-              label="Price"
+              helperText={formik.touched.phone && formik.errors.phone}
+              label="Phone"
               margin="normal"
-              name="price"
+              name="phone"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               type="text"
-              value={formik.values.price}
+              value={formik.values.phone}
               variant="outlined"
             />
             <TextField
-              error={Boolean(formik.touched.detailDescription && formik.errors.detailDescription)}
+              error={Boolean(formik.touched.email && formik.errors.email)}
               fullWidth
-              helperText={formik.touched.detailDescription && formik.errors.detailDescription}
-              label="Detail description"
+              helperText={formik.touched.email && formik.errors.email}
+              label="Email"
               margin="normal"
-              name="detailDescription"
+              name="email"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               type="text"
-              value={formik.values.detailDescription}
+              value={formik.values.email}
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.username && formik.errors.username)}
+              fullWidth
+              helperText={formik.touched.username && formik.errors.username}
+              label="Username"
+              margin="normal"
+              name="username"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              type="text"
+              value={formik.values.username}
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.roles && formik.errors.roles)}
+              disabled
+              fullWidth
+              helperText={formik.touched.roles && formik.errors.roles}
+              label="ROLES"
+              margin="normal"
+              name="roles"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              type="text"
+              value={formik.values.roles}
               variant="outlined"
             />
             <Box sx={{ py: 2, ml: 16 }}>
-              <Button sx={{ mr: 2 }} color="primary" size="large" type="submit" variant="contained">
+              <Button
+                sx={{ mr: 2 }}
+                color="primary"
+                size="large"
+                type="submit"
+                variant="contained"
+                onClick={updateUser}
+              >
                 Update
               </Button>
               <Button color="primary" size="large" variant="contained" onClick={handleClose}>

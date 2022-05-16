@@ -12,12 +12,14 @@ const axiosClient = axios.create({
   },
   paramsSerializer: (params) => queryString.stringify(params),
 });
+
 axiosClient.interceptors.request.use(async (config) => {
   // Handle token here ...
-  localStorage.getItem("token").length !== 0
-    ? (config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`)
-    : (config.headers.Authorization = false);
-
+  if (localStorage.getItem("token") !== null) {
+    localStorage.getItem("token").length !== 0
+      ? (config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`)
+      : (config.headers.Authorization = false);
+  }
   return config;
 });
 axiosClient.interceptors.response.use(

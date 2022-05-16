@@ -1,35 +1,38 @@
 import Head from "next/head";
 import { Box, Container } from "@mui/material";
-import { CustomerListProducts } from "../components/customer/customer-list-products";
 import { CustomerListToolbar } from "../components/customer/customer-list-toolbar";
 import { DashboardLayout } from "../components/dashboard-layout";
 import React, { useState, useEffect } from "react";
-import ProductsApi from "src/api/productsApi";
+import orderApi from "src/api/orderApi";
+import { CustomerDetailListOders } from "src/components/customer/customer-list-detailOrder";
 
-export default function Products() {
+export default function DetailOrder() {
   const [listproduct, setListproduct] = useState([]);
 
   useEffect(() => {
     const fetchProductList = async () => {
+      const ID = localStorage.getItem("idDetailOrder");
       try {
-        const param = {
-          page: 1,
-          size: 10,
-        };
-        const response = await ProductsApi.getAllProduct(param);
-        setListproduct(response.products);
+        const response = await orderApi.getOrderByID(ID);
+        console.log("response", response);
+        setListproduct(response);
       } catch (error) {
         console.log("Loi : " + error);
       }
     };
-
     fetchProductList();
   }, []);
+
+  useEffect(() => {
+  console.log("setlist", listproduct);
+
+  }, [listproduct]);
+
 
   return (
     <>
       <Head>
-        <title>Product</title>
+        <title>Detail Product</title>
       </Head>
       <Box
         component="main"
@@ -39,9 +42,9 @@ export default function Products() {
         }}
       >
         <Container maxWidth={false}>
-          <CustomerListToolbar titlePage="Product" />
+          <CustomerListToolbar titlePage="Detail Order" />
           <Box sx={{ mt: 3 }}>
-            <CustomerListProducts products={listproduct} />
+            <CustomerDetailListOders products={listproduct} />
           </Box>
         </Container>
       </Box>
@@ -49,4 +52,4 @@ export default function Products() {
   );
 }
 
-Products.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+DetailOrder.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
