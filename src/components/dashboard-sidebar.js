@@ -27,20 +27,16 @@ const items = [
     icon: <SkinOutlined />,
     title: "Products",
   },
-  {
-    href: "/account",
-    icon: <UserIcon fontSize="small" />,
-    title: "Account",
-  },
+
   {
     href: "/orders",
     icon: <ShoppingBagIcon fontSize="small" />,
     title: "Orders",
   },
   {
-    href: "/register",
-    icon: <UserAddIcon fontSize="small" />,
-    title: "Register",
+    href: "/account",
+    icon: <UserIcon fontSize="small" />,
+    title: "Account",
   },
 ];
 

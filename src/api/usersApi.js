@@ -4,13 +4,12 @@ const userApi = {
     const url = "/api/v1/users";
     return axiosClient.get(url, { param });
   },
-
   findUser: (id) => {
     const url = `/api/v1/${id}`;
     return axiosClient.get(url);
   },
   login: (param) => {
-    const url = `api/v1/auth/login`;
+    const url = `/auth/signin`;
     return axiosClient.post(url, param);
   },
   getUser: () => {
@@ -20,6 +19,10 @@ const userApi = {
   updateUser: (param) => {
     const url = "/api/v1/user/update";
     return axiosClient.put(url, param);
+  },
+  registerUser: (param) => {
+    const url = `/users`;
+    return axiosClient.post(url, param);
   },
 };
 export default userApi;

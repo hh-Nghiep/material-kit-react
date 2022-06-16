@@ -2,14 +2,13 @@ import axiosClient from "./axiosClient";
 
 const ProductsApi = {
   getAllProduct: (param) => {
-    const url = "/api/v1/products";
+    const url = "/product";
     return axiosClient.get(url, { param });
   },
-
-  updateProduct: (param) => {
-    const url = "/api/v1/product/update";
-    return axiosClient.put(url, param)
-  }
+  getProductById: (id) => {
+    const url = `/product/${id}`;
+    return axiosClient.get(url);
+  },
 };
 
 export default ProductsApi;

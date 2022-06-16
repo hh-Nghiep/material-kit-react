@@ -52,7 +52,7 @@ export const CustomerDetailListOders = ({ products, ...rest }) => {
     setPage(newPage);
   };
 
-   console.log(products);
+  console.log(products);
 
   return (
     <Card {...rest}>
@@ -69,7 +69,7 @@ export const CustomerDetailListOders = ({ products, ...rest }) => {
                 <TableCell>Total Price</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody >
+            <TableBody>
               {products?.map((product) => (
                 <TableRow hover key={product.id?.productId}>
                   <TableCell>{product.id?.productId}</TableCell>

@@ -25,7 +25,7 @@ export const CustomerListToolbar = (props) => (
         {props.titlePage}
       </Typography>
       <Box sx={{ m: 1 }}>
-        {props.titlePage === "Product" ? (
+        {props.titlePage !== "Orders" && props.titlePage !== "Customer" ? (
           <Button color="primary" variant="contained">
             Add {props.titlePage}
           </Button>

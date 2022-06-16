@@ -5,7 +5,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Bell as BellIcon } from "../icons/bell";
 import { Users as UsersIcon } from "../icons/users";
 import NextLink from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import userApi from "src/api/usersApi";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -14,12 +15,15 @@ const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
 
 export const DashboardNavbar = (props) => {
   const { onSidebarOpen, ...other } = props;
-
+  const [userName, setUserName] = useState();
+  const fetchUserName = async () => {
+    const response = await userApi.getUser();
+    setUserName(response.username);
+    try {
+    } catch (error) {}
+  };
   useEffect(() => {
-    const fetchUserName = async () => {
-      try {
-      } catch (error) {}
-    };
+    fetchUserName();
   }, []);
 
   return (
@@ -80,7 +84,7 @@ export const DashboardNavbar = (props) => {
             }}
           >
             <NextLink className="username" href="/account">
-              Nghiệp
+              {userName ? userName : ""}
             </NextLink>
           </div>
         </Toolbar>

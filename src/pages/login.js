@@ -3,7 +3,7 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Box, Button, Container, Grid, Link, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, Link, TextField, Typography } from "@mui/material";
 import userApi from "src/api/usersApi";
 import { useEffect } from "react";
 const Login = () => {
@@ -17,7 +17,6 @@ const Login = () => {
     try {
       const response = await userApi.login(param);
       localStorage.setItem("token", response.access_token);
-
       router.push("/account");
     } catch (error) {
       console.log(error);
@@ -27,8 +26,8 @@ const Login = () => {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
-      username: "user3",
-      password: "123",
+      username: "test1@gmail.com",
+      password: "123123123",
     },
     validationSchema: Yup.object({
       username: Yup.string()
